@@ -39,7 +39,8 @@
           const API_KEY = "0CE6EF37769C1E631D8FA83CBE878FA6"
           const QUERY = document.getElementById("query").value
           const result = document.getElementById("result")
-          const res = await fetch(`https://api.ip2location.io/?key=${API_KEY}&ip=${QUERY}`)
+          const enpoint = `https://api.ip2location.io/?key=${API_KEY}&ip=${QUERY}`
+          const res = await fetch(`https://api.allorigins.win/get?url=${enpoint}`)
           const data = await res.json()
           
           result.innerHTML = `
