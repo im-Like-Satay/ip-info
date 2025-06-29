@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OSINT</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
+  <body class="bg-gray-100 min-h-screen p-4">
+    <div class="max-w-2xl mx-auto">
+      <h1 class="text-3xl font-bold text-center mb-6 text-blue-600">IP Location Finder</h1>
+      
+      <div class="container bg-white p-6 rounded-lg shadow-md mb-6">
+        <div class="flex gap-2">
+          <input 
+            type="text" 
+            id="query" 
+            placeholder="Enter IP address"
+            class="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+          />
+          <button 
+            onclick="main()"
+            class="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+          >
+            Ambil Data
+          </button>
+        </div>
+      </div>
+      
+      <div 
+        id="result" 
+        class="bg-white p-6 rounded-lg shadow-md"
+      ></div>
+    </div>
+    
+    <script>
+      async function main() {
+        try {
+          const API_KEY = "0CE6EF37769C1E631D8FA83CBE878FA6"
+          const QUERY = document.getElementById("query").value
+          const result = document.getElementById("result")
+          const res = await fetch(`https://api.ip2location.io/?key=${API_KEY}&ip=${QUERY}`)
+          const data = await res.json()
+          
+          result.innerHTML = `
+          <ul class="space-y-2">
+            <li class="flex border-b pb-2"><span class="font-semibold w-32">IP:</span> ${data.ip}</li>
+            <li class="flex border-b pb-2"><span class="font-semibold w-32">KODE NEGARA:</span> ${data.country_code}</li>
+            <li class="flex border-b pb-2"><span class="font-semibold w-32">NEGARA:</span> ${data.country_name}</li>
+            <li class="flex border-b pb-2"><span class="font-semibold w-32">REGION:</span> ${data.region_name}</li>
+            <li class="flex border-b pb-2"><span class="font-semibold w-32">KOTA:</span> ${data.city_name}</li>
+            <li class="flex border-b pb-2"><span class="font-semibold w-32">LINTANG:</span> ${data.latitude}</li>
+            <li class="flex border-b pb-2"><span class="font-semibold w-32">BUJUR:</span> ${data.longitude}</li>
+            <li class="flex border-b pb-2"><span class="font-semibold w-32">ZIP KODE:</span> ${data.zip_code}</li>
+            <li class="flex border-b pb-2"><span class="font-semibold w-32">ZONA WAKTU:</span> ${data.time_zone}</li>
+            <li class="flex border-b pb-2"><span class="font-semibold w-32">ASN:</span> ${data.asn}</li>
+            <li class="flex border-b pb-2"><span class="font-semibold w-32">AS:</span> ${data.as}</li>
+            <li class="flex"><span class="font-semibold w-32">PROXY:</span> ${data.is_proxy}</li>
+          </ul>`
+        } catch (error) {
+          result.innerHTML = '<p class="text-red-500 font-medium">Error fetching data. Please check the IP address and try again.</p>'
+        }
+      }
+    </script>
+  </body>
+</html>
